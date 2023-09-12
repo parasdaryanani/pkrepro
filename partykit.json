@@ -1,0 +1,8 @@
+{
+  "name": "pkrepro",
+  "main": "server/src/server.ts",
+  "serve": {
+    "path": "server/public",
+    "build": "server/src/client.ts"
+  }
+}
