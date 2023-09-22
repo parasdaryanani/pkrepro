@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import {createContext, useContext, useEffect} from 'react';
 import {showMessage} from 'react-native-flash-message';
 
-import usePartySocket from '../use-party-socket';
-// import usePartySocket from 'partysocket/react'; // RN not happy with this
+import usePartySocket from 'partysocket/react';
 
 interface Player {
   username: string;

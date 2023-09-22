@@ -1,0 +1,44 @@
+diff --git a/node_modules/partysocket/dist/chunk-YV734IKE.mjs b/node_modules/partysocket/dist/chunk-YV734IKE.mjs
+index 586e095..7bb47e5 100644
+--- a/node_modules/partysocket/dist/chunk-YV734IKE.mjs
++++ b/node_modules/partysocket/dist/chunk-YV734IKE.mjs
+@@ -20,6 +20,13 @@ if (!globalThis.EventTarget || !globalThis.Event) {
+   Please file an issue at https://github.com/partykit/partykit if you're still having trouble.
+ `);
+ }
++class MessageEvent {
++  constructor(data, options = {}) {
++    this.data = data;
++    this.type = 'message';
++    Object.assign(this, options);
++  }
++}
+ var ErrorEvent = class extends Event {
+   message;
+   error;
+@@ -380,17 +387,21 @@ var ReconnectingWebSocket = class _ReconnectingWebSocket extends EventTarget {
+     this._ws.binaryType = this._binaryType;
+     this._messageQueue.forEach((message) => this._ws?.send(message));
+     this._messageQueue = [];
++    const newEvent = new Event("open");
+     if (this.onopen) {
+-      this.onopen(event);
++      this.onopen(newEvent);
+     }
+-    this.dispatchEvent(cloneEvent(event));
++    this.dispatchEvent(cloneEvent(newEvent));
+   };
+   _handleMessage = (event) => {
+     this._debug("message event");
++    const newEvent = new MessageEvent("message", {
++      data: event.data,
++    });
+     if (this.onmessage) {
+-      this.onmessage(event);
++      this.onmessage(newEvent);
+     }
+-    this.dispatchEvent(cloneEvent(event));
++    this.dispatchEvent(cloneEvent(newEvent));
+   };
+   _handleError = (event) => {
+     this._debug("error event", event.message);
